@@ -26,7 +26,7 @@ services:
       SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: file:/config-repo
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
     volumes:
-      - ./config-repo:/config-repo
+      - ./ConfigServer/ConfigServer/config-repo:/config-repo
     networks:
       - paris-net
 
@@ -67,6 +67,9 @@ services:
     environment:
       SPRING_CONFIG_IMPORT: optional:configserver:http://config-server:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/partner_db?options=-c%20TimeZone=Asia/Kolkata
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
     depends_on:
       - postgres
@@ -83,7 +86,11 @@ services:
       - "8082:8082"
     environment:
       SPRING_CONFIG_IMPORT: optional:configserver:http://config-server:8888
+      SERVER_PORT: 8082
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/bank_db?options=-c%20TimeZone=Asia/Kolkata
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
     depends_on:
       - postgres
